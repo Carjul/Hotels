@@ -51,13 +51,18 @@
     </div>
   </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {useUsuarioStore} from '../../store/User'
+import { useRouter } from 'vue-router';
 
 
 const storeUser = useUsuarioStore()
+const router = useRouter();
 
+onMounted(() => {
+  if (localStorage.getItem("token")) router.push("/home/dashboard");
 
+})
 const objUser = ref({
   correo: "",
   contraseña: "",

@@ -1,18 +1,28 @@
 <template>
   <router-view></router-view>
 </template>
-<script setup>
-import { onMounted } from 'vue';
+
+<script setup lang="ts">
+import { onBeforeMount, onMounted } from 'vue';
 import { useUsuarioStore } from './store/User';
+const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+  e.preventDefault();
+  e.returnValue = '';
+  return '';
+};
+
+onBeforeMount(() => {
+  // Add event listener for page reload
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+});
+
 const storeUser = useUsuarioStore()
-
 onMounted(() => {
-  if (localStorage.getItem("user")) {
-    let x = JSON.parse(localStorage.getItem("user"))
-    console.log(x)
-    storeUser.usuario=x;
+  var ls: string | null  = localStorage.getItem("user");
+  if (ls) {
+    let user = JSON.parse(ls)
+    storeUser.usuario= user;
   };
-
 })
-
 </script>

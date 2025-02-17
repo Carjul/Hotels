@@ -2,40 +2,34 @@
 import { onMounted } from 'vue';
 import Nav from '../../components/sideBar/Nav.vue';
 import { useRouter } from 'vue-router';
-
+import { useHotelsStore } from '../../store/Hotel';
+import { useUsuarioStore } from '../../store/User';
+const { GetHotelsOfUser} = useHotelsStore()
+const {usuario} = useUsuarioStore()
 const router = useRouter();
 
 
 onMounted(() => {
-  if (localStorage.getItem("token") === null) router.push("/login");
+  if (localStorage.getItem("token") === null) {
+    router.push("/login");
+  } else{
+    usuario.hotelId? GetHotelsOfUser(usuario.hotelId): null;
+  }
 
 })
 
 </script>
 
 <template>
-  <div class="flex flex-row justify-start">
+  <div class="flex flex-col w-full">
     <Nav></Nav>
-  <div class="flex flex-col w-5/6 p-5">
-    <router-view></router-view>
+    <div class="flex flex-col w-full p-5">
+      <router-view></router-view>
+    </div>
   </div>
-  </div>
-  
+
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
 </style>

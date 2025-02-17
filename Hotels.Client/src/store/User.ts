@@ -13,6 +13,7 @@ export type User = {
         id: number;
         name: string;
     };
+    hotelId:string[];
     created_at: string;
     updated_at: string;
 };
